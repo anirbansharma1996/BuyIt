@@ -1,4 +1,4 @@
-[!main](buyit-git-1.png)
+![main](buyit-git-1.png)
 
 # BuyIT - A Blinkit Clone
 
