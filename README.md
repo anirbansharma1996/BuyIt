@@ -1,6 +1,6 @@
-![main](buyit-git-1.png)
-
 # BuyIt - A BlinkIt Clone
+
+![main](buyit-git-1.png)
 
 BuyIT is a web application inspired by Blinkit, designed to provide a seamless online shopping experience for users to order and receive items delivered to their doorstep. The application is built using modern web technologies including React, Redux, Tailwind CSS, and TypeScript.
 
