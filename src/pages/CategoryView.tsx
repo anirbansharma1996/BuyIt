@@ -11,7 +11,7 @@ const CategoryView = () => {
   const [innersubcategories, setInnerSubcategories] = useState<InnerSubCategory[]>([]);
   const [params] = useSearchParams();
 
-  const category = params.get("category");
+  const category = params.get("title");
 
   useEffect(() => {
     setCategoryList(Categories.map((el: Category) => el.title));
@@ -37,10 +37,10 @@ const CategoryView = () => {
       <div className="categories-list-items">
         {categorylist.map((el: string) => (
           <p
-            className="cursor-pointer"
+            className="cursor-pointer mt-6 lg:mt-0"
             key={el} 
             onClick={() =>
-              navigate(`/category?category=${encodeURIComponent(el)}`)
+              navigate(`/category?title=${encodeURIComponent(el)}`)
             }
           >
             {el}

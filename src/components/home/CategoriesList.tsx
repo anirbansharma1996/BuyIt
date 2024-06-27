@@ -23,7 +23,7 @@ const CategoriesList = (props: Props) => {
 
   const handleSubCategory = (title: string) => {
     const encodedTitle = encodeURIComponent(title)
-    navigate(`/category?category=${encodedTitle}`);
+    navigate(`/category?title=${encodedTitle}`);
   };
   return (
     <section className="my-4">

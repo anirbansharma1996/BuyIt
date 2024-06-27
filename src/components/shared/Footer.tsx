@@ -109,7 +109,7 @@ const Footer = () => {
                   key={cat.id}
                 >
                   <Link
-                    to={`/category?category=${encodeURIComponent(cat.text)}`}
+                    to={`/category?title=${encodeURIComponent(cat.text)}`}
                   >
                     {cat.text}
                   </Link>
