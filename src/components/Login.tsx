@@ -2,15 +2,13 @@ import React, { useState } from "react";
 import Modal from "react-modal";
 import { IoMdClose } from "react-icons/io";
 import { FaRegUser } from "react-icons/fa";
-import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
+import { GoogleLogin, GoogleOAuthProvider,CredentialResponse } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import logo from "../assets/buyit-logo.png";
 
-type Response = {
-  credential: string;
-  clientId: string;
-  select_by: string;
-};
+// interface CredentialResponse {
+//   credential: string | undefined;
+// }
 
 type GoogleUser = {
   name: string;
@@ -44,20 +42,22 @@ const Login = () => {
     setIsOpen(false);
   }
 
-  const handleLoginSuccess = async (res: Response) => {
+  const handleLoginSuccess = async (res: CredentialResponse) => {
     try {
-      const decodedData: GoogleUser = jwtDecode(res.credential);
-      const user = {
-        name: decodedData.name,
-        email: decodedData.email,
-        picture: decodedData.picture,
-        sub: decodedData.sub,
-      };
-      localStorage.setItem("buyit-auth", JSON.stringify(user));
-      alert(`welcome ${user.name}`);
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
+      if (res.credential) {
+        const decodedData: GoogleUser = jwtDecode(res.credential);
+        const user = {
+          name: decodedData.name,
+          email: decodedData.email,
+          picture: decodedData.picture,
+          sub: decodedData.sub,
+        };
+        localStorage.setItem("buyit-auth", JSON.stringify(user));
+        alert(`welcome ${user.name}`);
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+      }
     } catch (error) {
       console.error("Error saving user data to server:", error);
     }
