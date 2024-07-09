@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { IoAddSharp, IoRemoveSharp } from 'react-icons/io5';
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useAppSelector } from '../../hooks/useAppSelector';
@@ -12,6 +12,7 @@ type ButtonProps = {
 const AddToCartButton = ({ product, size }: ButtonProps) => {
   const { cartItems } = useAppSelector((state) => state.cart);
   const dispatch = useAppDispatch();
+
 
   const itemInCart = cartItems.filter(
     (item) => item.product.id === product.id

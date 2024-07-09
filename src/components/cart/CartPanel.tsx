@@ -8,9 +8,18 @@ import AddToCartButton from "../shared/AddToCartButton";
 import Misc from "../../lib/data/layout.json";
 import SuggestedItems from "./SuggestedItems";
 import { shuffleItems } from "../../utils/helper";
+import { useState } from "react";
+
+type GoogleUser = {
+  name: string;
+  email: string;
+  picture: string;
+  sub: string;
+};
 
 const CartPanelItem = (props: CartItem) => {
   const { image, title, subTitle, price, mrp } = props.product;
+
   return (
     <div className="flex p-4 gap-4 border-t _border-muted">
       <div>
@@ -52,12 +61,17 @@ const CartPanel = () => {
   const productItems: any[] = Misc.filter((item) => item.type === 77).map(
     (el) => el.objects
   );
-  const allProducts: ProductItem[] = [];
+  const [allProducts, setAllProducts] = useState<ProductItem[]>([]);
+  const [user, setUser] = useState<GoogleUser | null>(() => {
+    const storedUser = localStorage.getItem("buyit-auth");
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
 
   productItems.forEach((obj: any) => {
     const items = obj[0].data.products.map((product: any) => product[0]);
     allProducts.push(...items);
   });
+
   const addedProducts = cartItems.map((item) => item.product.id);
   const otherProducts = allProducts.filter(
     (item) => !addedProducts.includes(item.product_id.toString())
@@ -161,19 +175,35 @@ const CartPanel = () => {
                 </div>
               </div>
             </div>
-            <div className="sticky bottom-0 bg-white px-4 pt-2 pb-4 min-h-[68px] _shadow_sticky">
-              <div className="bg-[#0c831f] cursor-pointer text-white flex items-center px-3 py-3 rounded-[4px] font-medium text-[14px]">
-                <div className="font-bold">{totalQuantity} Items</div>
-                <div className="font-bold">&nbsp; &middot; &nbsp;</div>
-                <div>
-                  <span className="font-extrabold">₹{billAmount}</span>
-                  <del className="text-sm ml-1">₹{totalAmount}</del>
-                </div>
-                <div className="ml-auto flex items-center font-bold">
-                  Proceed <FiChevronRight size={18} className="ml-2" />
+            {!user ? (
+              <div className="sticky bottom-0 bg-white px-4 pt-2 pb-4 min-h-[68px] _shadow_sticky">
+                <div className="bg-[#dd7a10] cursor-pointer text-white flex items-center px-3 py-3 rounded-[4px] font-medium text-[14px]">
+                  <div className="m-auto flex items-center font-bold"  onClick={() => dispatch(hideCart())}>
+                    You need to Login First
+                  
+                  </div>
                 </div>
               </div>
-            </div>
+            ) : (
+              <div className="sticky bottom-0 bg-white px-4 pt-2 pb-4 min-h-[68px] _shadow_sticky">
+                <div className="bg-[#0c831f] cursor-pointer text-white flex items-center px-3 py-3 rounded-[4px] font-medium text-[14px]">
+                  <div className="font-bold">{totalQuantity} Items</div>
+                  <div className="font-bold">&nbsp; &middot; &nbsp;</div>
+                  <div>
+                    <span className="font-extrabold">₹{billAmount}</span>
+                    <del className="text-sm ml-1">₹{totalAmount}</del>
+                  </div>
+                  <div className="ml-auto flex items-center font-bold">
+                    <a
+                      href={`/payment?total=${totalAmount}`}
+                      className="flex items-center font-bold"
+                    >
+                      Proceed <FiChevronRight size={18} className="ml-2" />
+                    </a>
+                  </div>
+                </div>
+              </div>
+            )}
           </>
         )}
       </aside>
