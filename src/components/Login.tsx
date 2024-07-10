@@ -1,14 +1,10 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import Modal from "react-modal";
 import { IoMdClose } from "react-icons/io";
 import { FaRegUser } from "react-icons/fa";
 import { GoogleLogin, GoogleOAuthProvider,CredentialResponse } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import logo from "../assets/buyit-logo.png";
-
-// interface CredentialResponse {
-//   credential: string | undefined;
-// }
 
 type GoogleUser = {
   name: string;

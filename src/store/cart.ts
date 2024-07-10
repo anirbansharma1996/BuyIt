@@ -28,29 +28,29 @@ const cartSlice = createSlice({
       );
       if (existingItem) {
         existingItem.quantity++;
-        existingItem.totalPrice = existingItem.billPrice + newItem.mrp;
-        existingItem.discount = existingItem.discount + (newItem.mrp - newItem.price);
-        existingItem.billPrice = existingItem.billPrice + newItem.price;
+        existingItem.totalPrice = existingItem.totalPrice + (newItem.mrp ?? 0);
+        existingItem.discount = existingItem.discount + ((newItem.mrp ?? 0) - ( newItem.price ?? 0));
+        existingItem.billPrice = existingItem.billPrice + ( newItem.price ?? 0);
       } else {
         state.cartItems.push({
           product: newItem,
           quantity: 1,
-          totalPrice: newItem.mrp,
-          discount: newItem.mrp - newItem.price,
-          billPrice: newItem.price
+          totalPrice: newItem.mrp ?? 0,
+          discount: (newItem.mrp ?? 0) - ( newItem.price ?? 0),
+          billPrice: ( newItem.price ?? 0)
         });
       }
       state.totalQuantity++;
       state.totalAmount = state.cartItems.reduce(
-        (total, item) => total + item.product.mrp * item.quantity,
+        (total, item) => total + (item.product.mrp ?? 0) * item.quantity,
         0
       );
       state.billAmount = state.cartItems.reduce(
-        (total, item) => total + item.product.price * item.quantity,
+        (total, item) => total + (item.product.price ?? 0) * item.quantity,
         0
       );
       state.discount = state.cartItems.reduce(
-        (total, item) => total + (item.product.mrp - item.product.price) * item.quantity,
+        (total, item) => total + ((item.product.mrp ?? 0) - (item.product.price ?? 0)) * item.quantity,
         0
       );
     },
@@ -66,22 +66,22 @@ const cartSlice = createSlice({
           );
         } else {
           existingItem.quantity--;
-          existingItem.totalPrice = existingItem.totalPrice - existingItem.product.mrp;
-          existingItem.discount = existingItem.discount - (existingItem.product.mrp - existingItem.product.price);
-          existingItem.billPrice = existingItem.billPrice - existingItem.product.price;
+          existingItem.totalPrice = existingItem.totalPrice - (existingItem.product.mrp ?? 0);
+          existingItem.discount = existingItem.discount - ((existingItem.product.mrp ?? 0) - (existingItem.product.price ?? 0));
+          existingItem.billPrice = existingItem.billPrice - (existingItem.product.price ?? 0);
         }
       }
       state.totalQuantity--;
       state.totalAmount = state.cartItems.reduce(
-        (total, item) => total + item.product.mrp * item.quantity,
+        (total, item) => total + (item.product.mrp ?? 0) * item.quantity,
         0
       );
       state.billAmount = state.cartItems.reduce(
-        (total, item) => total + item.product.price * item.quantity,
+        (total, item) => total + (item.product.price ?? 0) * item.quantity,
         0
       );
       state.discount = state.cartItems.reduce(
-        (total, item) => total + (item.product.mrp - item.product.price) * item.quantity,
+        (total, item) => total + ((item.product.mrp ?? 0) - (item.product.price ?? 0)) * item.quantity,
         0
       );
     }
