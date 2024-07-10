@@ -100,7 +100,7 @@ const Login = () => {
               <br />
               much more, delivered straight to your door in minutes.
             </p>
-            <GoogleOAuthProvider clientId="382479443707-2hbdl2jvs0iduh9dmfk3t86q62gg796b.apps.googleusercontent.com">
+            <GoogleOAuthProvider clientId="505446854880-ke3lpgvhpeo0odbgvcleitqtuphpjovb.apps.googleusercontent.com">
               <GoogleLogin
                 onSuccess={handleLoginSuccess}
                 onError={handleLoginError}
