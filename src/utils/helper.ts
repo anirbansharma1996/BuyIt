@@ -12,7 +12,7 @@ const getCategoryLink = (category: Category): string => {
   const cat = convertTextToURLSlug(category.title);
   const sub = category.subcategories[0];
   const subcat = convertTextToURLSlug(sub.title);
-  return `category/${cat}/${subcat}/${category.id}/${sub.id}`
+  return `category/${cat}/${subcat}/${category.product_id}/${sub.product_id}`
 }
 
 const shuffleItems = (unshuffled: any[] | undefined): any[] => {
