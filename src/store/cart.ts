@@ -1,5 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { CartItem, CartProduct } from '../utils/types';
+import { createSlice } from "@reduxjs/toolkit";
+import { CartItem, CartProduct } from "../utils/types";
 
 type InitialState = {
   cartItems: CartItem[];
@@ -14,11 +14,11 @@ const initialState: InitialState = {
   totalQuantity: 0,
   totalAmount: 0,
   billAmount: 0,
-  discount: 0
+  discount: 0,
 };
 
 const cartSlice = createSlice({
-  name: 'cart',
+  name: "cart",
   initialState,
   reducers: {
     addItem: (state, action) => {
@@ -29,15 +29,16 @@ const cartSlice = createSlice({
       if (existingItem) {
         existingItem.quantity++;
         existingItem.totalPrice = existingItem.totalPrice + (newItem.mrp ?? 0);
-        existingItem.discount = existingItem.discount + ((newItem.mrp ?? 0) - ( newItem.price ?? 0));
-        existingItem.billPrice = existingItem.billPrice + ( newItem.price ?? 0);
+        existingItem.discount =
+          existingItem.discount + ((newItem.mrp ?? 0) - (newItem.price ?? 0));
+        existingItem.billPrice = existingItem.billPrice + (newItem.price ?? 0);
       } else {
         state.cartItems.push({
           product: newItem,
           quantity: 1,
           totalPrice: newItem.mrp ?? 0,
-          discount: (newItem.mrp ?? 0) - ( newItem.price ?? 0),
-          billPrice: ( newItem.price ?? 0)
+          discount: (newItem.mrp ?? 0) - (newItem.price ?? 0),
+          billPrice: newItem.price ?? 0,
         });
       }
       state.totalQuantity++;
@@ -50,7 +51,9 @@ const cartSlice = createSlice({
         0
       );
       state.discount = state.cartItems.reduce(
-        (total, item) => total + ((item.product.mrp ?? 0) - (item.product.price ?? 0)) * item.quantity,
+        (total, item) =>
+          total +
+          ((item.product.mrp ?? 0) - (item.product.price ?? 0)) * item.quantity,
         0
       );
     },
@@ -66,9 +69,14 @@ const cartSlice = createSlice({
           );
         } else {
           existingItem.quantity--;
-          existingItem.totalPrice = existingItem.totalPrice - (existingItem.product.mrp ?? 0);
-          existingItem.discount = existingItem.discount - ((existingItem.product.mrp ?? 0) - (existingItem.product.price ?? 0));
-          existingItem.billPrice = existingItem.billPrice - (existingItem.product.price ?? 0);
+          existingItem.totalPrice =
+            existingItem.totalPrice - (existingItem.product.mrp ?? 0);
+          existingItem.discount =
+            existingItem.discount -
+            ((existingItem.product.mrp ?? 0) -
+              (existingItem.product.price ?? 0));
+          existingItem.billPrice =
+            existingItem.billPrice - (existingItem.product.price ?? 0);
         }
       }
       state.totalQuantity--;
@@ -81,12 +89,21 @@ const cartSlice = createSlice({
         0
       );
       state.discount = state.cartItems.reduce(
-        (total, item) => total + ((item.product.mrp ?? 0) - (item.product.price ?? 0)) * item.quantity,
+        (total, item) =>
+          total +
+          ((item.product.mrp ?? 0) - (item.product.price ?? 0)) * item.quantity,
         0
       );
-    }
+    },
+    clearCart: (state) => {
+      state.cartItems = [];
+      state.totalQuantity = 0;
+      state.totalAmount = 0;
+      state.billAmount = 0;
+      state.discount = 0;
+    },
   },
 });
 
 export default cartSlice.reducer;
-export const { addItem, removeItem } = cartSlice.actions;
+export const { addItem, removeItem, clearCart } = cartSlice.actions;
