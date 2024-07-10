@@ -9,6 +9,7 @@ import Misc from "../../lib/data/layout.json";
 import SuggestedItems from "./SuggestedItems";
 import { shuffleItems } from "../../utils/helper";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 type GoogleUser = {
   name: string;
@@ -194,12 +195,13 @@ const CartPanel = () => {
                     <del className="text-sm ml-1">₹{totalAmount}</del>
                   </div>
                   <div className="ml-auto flex items-center font-bold">
-                    <a
-                      href={`/payment?total=${totalAmount}`}
+                    <Link
+                      to={`/payment?total=${totalAmount}`}
                       className="flex items-center font-bold"
+                      onClick={() => dispatch(hideCart()) }
                     >
                       Proceed <FiChevronRight size={18} className="ml-2" />
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </div>

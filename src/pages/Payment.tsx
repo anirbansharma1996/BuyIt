@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 const Payment = () => {
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate()
   const [param, setParam] = useSearchParams();
   const total = param.get("total");
 
@@ -11,7 +12,7 @@ const Payment = () => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      window.location.href = "/payment-success";
+      navigate("/payment-success");
     }, 2000);
   };
 
@@ -133,6 +134,7 @@ const Payment = () => {
                   className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   placeholder="1234 5678 9012 3456"
                   required
+                  maxLength={16}
                 />
               </div>
               <div>
@@ -173,11 +175,12 @@ const Payment = () => {
                   CVV
                 </label>
                 <input
-                  type="text"
+                  type="password"
                   id="cvv"
                   className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   placeholder="123"
                   required
+                  maxLength={3}
                 />
               </div>
               <div>
